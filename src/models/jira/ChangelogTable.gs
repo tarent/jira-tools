@@ -140,8 +140,11 @@ function ChangelogTable_(attributes) {
         continue;
       }
 
-      for (var j = 0; j < issue.changelog.histories.length; j++) {
-        history = issue.changelog.histories[j];
+      var histories = issue.changelog.histories
+        //.sort((a, b) => a.created <= b.created)
+      var initialState
+      for (var j = 0; j < histories.length; j++) {
+        history = histories[j];
         for (var k = 0; k < history.items.length; k++) {
           item = history.items[k];
           if (item.field == "status") {//@TODO; parameterize this field name
@@ -155,11 +158,24 @@ function ChangelogTable_(attributes) {
                 toString  : item['toString']
               }
             };
+            initialState = initialState? initialState : item.fromString
 
             data.push(row);
           }
         }
       }
+      //add explicit row for initial state
+      row = {
+        key       : issue.key,
+        fields: {
+          created   : issue.fields.created,
+          issuetype : issue.fields.issuetype,
+          field     : 'status',
+          fromString: '',
+          toString  : initialState? initialState : issue.fields.status.name
+        }
+      }
+      data.push(row);
     }
 
     metaData.time_lastupdated = (new Date()).getTime();

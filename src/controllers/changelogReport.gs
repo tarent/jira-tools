@@ -81,6 +81,7 @@ ChangelogReport_Controller_ = {
       filter : jsonFormData['filter_id'] ? getFilter(parseInt(jsonFormData['filter_id'])) : jsonFormData['filter'],
       maxResults : parseInt(jsonFormData['maxResults']) || 10000,
       columns : ['issuetype','created','field','fromString','toString'],
+      fields: ['issuetype','created','status'],
       issues : {},
       expand: ['changelog'],
       sheet : getTicketSheet(),
@@ -138,7 +139,7 @@ ChangelogReport_Controller_ = {
     var Search = new IssueSearch(attributes.filter.jql);
     Search
       .setExpand(attributes.expand)
-      .setFields(attributes.columns)
+      .setFields(attributes.fields)
       .setMaxResults(attributes.maxResults)
       .setStartAt(0)
       .setMaxPerPage(100)

@@ -218,7 +218,7 @@ function ChangelogTableRendererDefault_(ChangelogTable) {
       info.oRangeA1.to = range.getCell(range.getNumRows(), range.getNumColumns()).getA1Notation();
 
       // flush sheet every 25 rows (to often is bad for performance, to less bad for UX)
-      if (i % 25 === 0) {
+      if (i % 250 === 0) {
         SpreadsheetApp.flush();
       }
 
